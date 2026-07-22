@@ -1,5 +1,5 @@
 /* ========================================
-   EL HOMBRE DE STATUS — Animations
+   EL HOMBRE DE STATUS v2 — Animations
    ======================================== */
 
 (function () {
@@ -9,72 +9,25 @@
     window.addEventListener('load', () => {
         setTimeout(() => {
             const preloader = document.getElementById('preloader');
-            preloader.classList.add('hidden');
-            document.querySelector('.hero').classList.add('loaded');
+            if (preloader) preloader.classList.add('hidden');
+            const hero = document.querySelector('.hero');
+            if (hero) hero.classList.add('loaded');
             initAnimations();
-        }, 1800);
+        }, 1600);
     });
 
     function initAnimations() {
-        initCursor();
         initScrollAnimations();
         initParallax();
-        initZoomImages();
         initNavScroll();
         initTimer();
         initSmoothScroll();
-        initTransitionLines();
+        initCarousel();
+        initFAQ();
+        initButtonRipple();
     }
 
-    // ---------- CUSTOM CURSOR ----------
-    function initCursor() {
-        const cursor = document.getElementById('cursor');
-        const follower = document.getElementById('cursorFollower');
-
-        if (!cursor || !follower) return;
-        if (window.innerWidth <= 768) return;
-
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        let followerX = 0, followerY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function animate() {
-            cursorX += (mouseX - cursorX) * 0.2;
-            cursorY += (mouseY - cursorY) * 0.2;
-            followerX += (mouseX - followerX) * 0.08;
-            followerY += (mouseY - followerY) * 0.08;
-
-            cursor.style.transform = `translate(${cursorX - 4}px, ${cursorY - 4}px)`;
-            follower.style.transform = `translate(${followerX - 20}px, ${followerY - 20}px)`;
-
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // Hover effects on interactive elements
-        const hoverTargets = document.querySelectorAll('a, button, .module-card, .tag');
-        hoverTargets.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform += ' scale(2)';
-                follower.style.width = '60px';
-                follower.style.height = '60px';
-                follower.style.borderColor = 'rgba(201, 168, 76, 0.6)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.transform = cursor.style.transform.replace(' scale(2)', '');
-                follower.style.width = '40px';
-                follower.style.height = '40px';
-                follower.style.borderColor = 'rgba(201, 168, 76, 0.4)';
-            });
-        });
-    }
-
-    // ---------- SCROLL ANIMATIONS (Intersection Observer) ----------
+    // ---------- SCROLL ANIMATIONS ----------
     function initScrollAnimations() {
         const elements = document.querySelectorAll('.anim-fade-up');
 
@@ -89,8 +42,8 @@
                 }
             });
         }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -60px 0px'
+            threshold: 0.12,
+            rootMargin: '0px 0px -40px 0px'
         });
 
         elements.forEach(el => observer.observe(el));
@@ -99,70 +52,29 @@
     // ---------- PARALLAX ----------
     function initParallax() {
         const parallaxElements = document.querySelectorAll('.parallax-img');
-
         if (parallaxElements.length === 0) return;
 
         function updateParallax() {
-            const scrollY = window.scrollY;
-
             parallaxElements.forEach(el => {
                 const speed = parseFloat(el.dataset.speed) || 0.3;
                 const rect = el.getBoundingClientRect();
-                const elementCenter = rect.top + rect.height / 2;
-                const windowCenter = window.innerHeight / 2;
-                const distance = elementCenter - windowCenter;
-
-                // Only animate if element is in viewport
                 if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    const elementCenter = rect.top + rect.height / 2;
+                    const windowCenter = window.innerHeight / 2;
+                    const distance = elementCenter - windowCenter;
                     el.style.transform = `scale(1.1) translateY(${distance * speed}px)`;
                 }
             });
-
             requestAnimationFrame(updateParallax);
         }
 
         updateParallax();
     }
 
-    // ---------- ZOOM IMAGES ON SCROLL ----------
-    function initZoomImages() {
-        const zoomImages = document.querySelectorAll('.zoom-img');
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        });
-
-        zoomImages.forEach(img => observer.observe(img));
-
-        // Additional scroll-driven zoom
-        function updateZoom() {
-            zoomImages.forEach(img => {
-                const rect = img.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    const progress = 1 - (rect.top / (window.innerHeight + rect.height));
-                    const clampedProgress = Math.max(0, Math.min(1, progress));
-                    const scale = 1.15 - (clampedProgress * 0.1);
-                    const opacity = 0.85 + (clampedProgress * 0.15);
-                    img.style.transform = `scale(${scale})`;
-                    img.style.opacity = opacity;
-                }
-            });
-            requestAnimationFrame(updateZoom);
-        }
-
-        updateZoom();
-    }
-
-    // ---------- NAV SCROLL STATE ----------
+    // ---------- NAV SCROLL ----------
     function initNavScroll() {
         const nav = document.getElementById('nav');
+        if (!nav) return;
 
         function updateNav() {
             if (window.scrollY > 80) {
@@ -176,40 +88,35 @@
         updateNav();
     }
 
-    // ---------- COUNTDOWN TIMER ----------
+    // ---------- COUNTDOWN TIMER (15 minutes) ----------
     function initTimer() {
-        // Set countdown to 24 hours from first visit
-        let targetTime = localStorage.getItem('ehds_timer');
+        let targetTime = localStorage.getItem('ehds_timer_v2');
 
-        if (!targetTime) {
-            targetTime = Date.now() + (24 * 60 * 60 * 1000);
-            localStorage.setItem('ehds_timer', targetTime);
+        if (!targetTime || isNaN(parseInt(targetTime))) {
+            targetTime = Date.now() + (15 * 60 * 1000);
+            localStorage.setItem('ehds_timer_v2', targetTime);
         }
 
         targetTime = parseInt(targetTime);
 
-        const hoursEl = document.getElementById('timerHours');
         const minutesEl = document.getElementById('timerMinutes');
         const secondsEl = document.getElementById('timerSeconds');
 
-        if (!hoursEl || !minutesEl || !secondsEl) return;
+        if (!minutesEl || !secondsEl) return;
 
         function updateTimer() {
             const now = Date.now();
             let remaining = targetTime - now;
 
             if (remaining <= 0) {
-                // Reset timer
-                targetTime = Date.now() + (24 * 60 * 60 * 1000);
-                localStorage.setItem('ehds_timer', targetTime);
-                remaining = 24 * 60 * 60 * 1000;
+                targetTime = Date.now() + (15 * 60 * 1000);
+                localStorage.setItem('ehds_timer_v2', targetTime);
+                remaining = 15 * 60 * 1000;
             }
 
-            const hours = Math.floor(remaining / (1000 * 60 * 60));
-            const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+            const minutes = Math.floor(remaining / (1000 * 60));
             const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
 
-            hoursEl.textContent = String(hours).padStart(2, '0');
             minutesEl.textContent = String(minutes).padStart(2, '0');
             secondsEl.textContent = String(seconds).padStart(2, '0');
         }
@@ -225,7 +132,7 @@
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    const offset = 80;
+                    const offset = 70;
                     const elementPosition = target.getBoundingClientRect().top + window.scrollY;
                     window.scrollTo({
                         top: elementPosition - offset,
@@ -236,105 +143,154 @@
         });
     }
 
-    // ---------- TRANSITION LINES SCROLL EFFECT ----------
-    function initTransitionLines() {
-        const lines = document.querySelectorAll('.transition-line');
+    // ---------- CAROUSEL ----------
+    function initCarousel() {
+        const track = document.getElementById('carouselTrack');
+        const dotsContainer = document.getElementById('carouselDots');
+        const prevBtn = document.getElementById('carouselPrev');
+        const nextBtn = document.getElementById('carouselNext');
 
-        function updateLines() {
-            lines.forEach((line, index) => {
-                const rect = line.getBoundingClientRect();
-                const windowH = window.innerHeight;
+        if (!track || !dotsContainer) return;
 
-                if (rect.top < windowH * 0.85 && rect.bottom > 0) {
-                    const progress = 1 - (rect.top / (windowH * 0.85));
-                    const clamped = Math.max(0, Math.min(1, progress));
-                    line.style.opacity = clamped;
-                    line.style.transform = `translateX(${(1 - clamped) * 30}px)`;
-                }
-            });
-            requestAnimationFrame(updateLines);
+        const slides = track.querySelectorAll('.carousel-slide');
+        const totalSlides = slides.length;
+        let currentIndex = 0;
+        let autoplayInterval;
+
+        // Create dots
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
         }
 
-        updateLines();
-    }
+        function goToSlide(index) {
+            currentIndex = index;
+            track.style.transform = `translateX(-${currentIndex * (100 + (16 / slides[0].offsetWidth * 100))}%)`;
 
-    // ---------- TILT EFFECT ON MODULE CARDS ----------
-    document.querySelectorAll('.module-card').forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            if (window.innerWidth <= 768) return;
-            const rect = card.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-            card.style.transform = `perspective(1000px) rotateX(${y * -5}deg) rotateY(${x * 5}deg) translateY(-4px)`;
-        });
+            // Simpler approach: translate by percentage
+            const slideWidth = slides[0].offsetWidth + 16; // gap
+            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
 
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-        });
-    });
-
-    // ---------- BUTTON RIPPLE EFFECT ----------
-    document.querySelectorAll('.btn-gold').forEach(btn => {
-        btn.addEventListener('click', function (e) {
-            const rect = btn.getBoundingClientRect();
-            const ripple = document.createElement('span');
-            ripple.style.cssText = `
-                position: absolute;
-                width: 0;
-                height: 0;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.3);
-                transform: translate(-50%, -50%);
-                pointer-events: none;
-                left: ${e.clientX - rect.left}px;
-                top: ${e.clientY - rect.top}px;
-            `;
-            btn.appendChild(ripple);
-
-            ripple.animate([
-                { width: '0px', height: '0px', opacity: 0.6 },
-                { width: '300px', height: '300px', opacity: 0 }
-            ], {
-                duration: 600,
-                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+            // Update dots
+            dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentIndex);
             });
+        }
 
-            setTimeout(() => ripple.remove(), 600);
+        function nextSlide() {
+            goToSlide((currentIndex + 1) % totalSlides);
+        }
+
+        function prevSlide() {
+            goToSlide((currentIndex - 1 + totalSlides) % totalSlides);
+        }
+
+        if (nextBtn) nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetAutoplay();
         });
-    });
 
-    // ---------- OFFER PRICE ANIMATION ----------
-    const priceAmount = document.getElementById('priceAmount');
-    if (priceAmount) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateNumber(priceAmount, 0, 97, 1200);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
+        if (prevBtn) prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetAutoplay();
+        });
 
-        observer.observe(priceAmount);
-    }
+        // Autoplay
+        function startAutoplay() {
+            autoplayInterval = setInterval(nextSlide, 4000);
+        }
 
-    function animateNumber(el, start, end, duration) {
-        const startTime = performance.now();
+        function resetAutoplay() {
+            clearInterval(autoplayInterval);
+            startAutoplay();
+        }
 
-        function update(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            // Ease out cubic
-            const eased = 1 - Math.pow(1 - progress, 3);
-            const current = Math.round(start + (end - start) * eased);
-            el.textContent = current;
+        startAutoplay();
 
-            if (progress < 1) {
-                requestAnimationFrame(update);
+        // Touch/drag support
+        let isDragging = false;
+        let startX = 0;
+        let currentTranslate = 0;
+
+        track.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            startX = e.touches[0].clientX;
+        }, { passive: true });
+
+        track.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            const diff = e.touches[0].clientX - startX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) prevSlide();
+                else nextSlide();
+                isDragging = false;
+                resetAutoplay();
             }
-        }
+        }, { passive: true });
 
-        requestAnimationFrame(update);
+        track.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        // Handle resize
+        window.addEventListener('resize', () => goToSlide(currentIndex));
+    }
+
+    // ---------- FAQ ACCORDION ----------
+    function initFAQ() {
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            if (!question) return;
+
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+
+                // Close all
+                faqItems.forEach(i => i.classList.remove('active'));
+
+                // Toggle current
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    }
+
+    // ---------- BUTTON RIPPLE ----------
+    function initButtonRipple() {
+        document.querySelectorAll('.btn-gold').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                const rect = btn.getBoundingClientRect();
+                const ripple = document.createElement('span');
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.3);
+                    transform: translate(-50%, -50%);
+                    pointer-events: none;
+                    left: ${e.clientX - rect.left}px;
+                    top: ${e.clientY - rect.top}px;
+                    z-index: 2;
+                `;
+                btn.appendChild(ripple);
+
+                ripple.animate([
+                    { width: '0px', height: '0px', opacity: 0.6 },
+                    { width: '300px', height: '300px', opacity: 0 }
+                ], {
+                    duration: 600,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                });
+
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
     }
 
 })();
