@@ -655,9 +655,7 @@ var obs = new IntersectionObserver(function(entries){
 document.querySelectorAll('.rv, .rv-left, .rv-right').forEach(function(el){ obs.observe(el); });
 
 (function(){
-  var KEY='ehs_cd_end';
-  var end=localStorage.getItem(KEY);
-  if(!end||Date.now()>+end){end=Date.now()+15*60*1000;localStorage.setItem(KEY,end);}
+  var end=Date.now()+15*60*1000;
   var mn=document.getElementById('cd-min');
   var sc=document.getElementById('cd-sec');
   function tick(){
@@ -672,18 +670,13 @@ document.querySelectorAll('.rv, .rv-left, .rv-right').forEach(function(el){ obs.
 })();
 
 (function(){
-  var KEY='ehs_scarcity_v3';
-  var data=localStorage.getItem(KEY);
-  var state;
-  if(data){state=JSON.parse(data);}
-  else{state={remaining:15,lastDrop:Date.now()};}
+  var state={remaining:15,lastDrop:Date.now()};
   var now=Date.now();
-  var elapsed=Math.floor((now-state.lastDrop)/60000);
+  var elapsed=Math.floor((now-state.lastDrop)/30000);
   if(elapsed>0){
     var drop=Math.min(elapsed,state.remaining-1);
     state.remaining=Math.max(1,state.remaining-drop);
     state.lastDrop=now;
-    localStorage.setItem(KEY,JSON.stringify(state));
   }
   var counterEl=document.getElementById('scarcity-counter');
   var toast=document.getElementById('sold-toast');
@@ -706,7 +699,6 @@ document.querySelectorAll('.rv, .rv-left, .rv-right').forEach(function(el){ obs.
     if(state.remaining>1){
       state.remaining--;
       state.lastDrop=Date.now();
-      localStorage.setItem(KEY,JSON.stringify(state));
       updateUI();
       showToast();
     }
