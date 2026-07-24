@@ -216,7 +216,7 @@ footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);padding:
   </div>
   <div class="scarcity-badge">
     <span class="scarcity-dot"></span>
-    <span class="scarcity-text" id="scarcity-counter">Quedan 89 de 100</span>
+    <span class="scarcity-text" id="scarcity-counter">Quedan 15 de 100</span>
   </div>
   <div class="hero-cta-wrap">
     <a href="#inscricao" class="btn"><span>Quiero ser un hombre de STATUS</span><span class="a">→</span></a>
@@ -634,7 +634,7 @@ footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);padding:
   <span class="sold-toast-icon">🛒</span>
   <div class="sold-toast-body">
     <span class="sold-toast-title" id="sold-title">Alguien acaba de comprar EHS</span>
-    <span class="sold-toast-sub" id="sold-sub">Quedan 89 de 100</span>
+    <span class="sold-toast-sub" id="sold-sub">Quedan 15 de 100</span>
   </div>
 </div>
 
@@ -671,11 +671,11 @@ document.querySelectorAll('.rv, .rv-left, .rv-right').forEach(function(el){ obs.
 })();
 
 (function(){
-  var KEY='ehs_scarcity_v2';
+  var KEY='ehs_scarcity_v3';
   var data=localStorage.getItem(KEY);
   var state;
   if(data){state=JSON.parse(data);}
-  else{state={remaining:89,lastDrop:Date.now()};}
+  else{state={remaining:15,lastDrop:Date.now()};}
   var now=Date.now();
   var elapsed=Math.floor((now-state.lastDrop)/60000);
   if(elapsed>0){
@@ -700,7 +700,7 @@ document.querySelectorAll('.rv, .rv-left, .rv-right').forEach(function(el){ obs.
     setTimeout(function(){toast.classList.remove('show');},4500);
   }
   updateUI();
-  var interval=60000-(Date.now()-state.lastDrop)%60000;
+  var interval=30000-(Date.now()-state.lastDrop)%30000;
   setTimeout(function drop(){
     if(state.remaining>1){
       state.remaining--;
@@ -709,7 +709,7 @@ document.querySelectorAll('.rv, .rv-left, .rv-right').forEach(function(el){ obs.
       updateUI();
       showToast();
     }
-    setTimeout(drop,60000);
+    setTimeout(drop,30000);
   },interval);
   setTimeout(showToast,5000);
 })();
