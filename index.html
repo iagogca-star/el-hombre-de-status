@@ -665,7 +665,15 @@ document.querySelectorAll('.rv, .rv-left, .rv-right').forEach(function(el){ obs.
     var s=Math.floor((rem%60000)/1000);
     mn.textContent=m<10?'0'+m:m;
     sc.textContent=s<10?'0'+s:s;
-    if(rem>0)requestAnimationFrame(tick);
+    if(rem>0){requestAnimationFrame(tick);}
+    else{
+      mn.textContent='00';sc.textContent='00';
+      document.querySelector('.countdown-subtitle').textContent='Oferta Expirada';
+      document.querySelector('.countdown-desc').textContent='Infelizmente, esta oportunidade ya no esta disponible.';
+      document.querySelector('.countdown-warn').textContent='Esta oferta ha finalizado.';
+      document.querySelector('.countdown-warn').style.animation='none';
+      document.querySelector('.countdown-warn').style.color='var(--ink3)';
+    }
   }
   tick();
 })();
@@ -673,7 +681,7 @@ document.querySelectorAll('.rv, .rv-left, .rv-right').forEach(function(el){ obs.
 (function(){
   var state={remaining:15,lastDrop:Date.now()};
   var now=Date.now();
-  var elapsed=Math.floor((now-state.lastDrop)/30000);
+  var elapsed=Math.floor((now-state.lastDrop)/60000);
   if(elapsed>0){
     var drop=Math.min(elapsed,state.remaining-1);
     state.remaining=Math.max(1,state.remaining-drop);
@@ -684,18 +692,28 @@ document.querySelectorAll('.rv, .rv-left, .rv-right').forEach(function(el){ obs.
   var titleEl=document.getElementById('sold-title');
   var subEl=document.getElementById('sold-sub');
   var names=['Carlos','Miguel','Andres','Pedro','Juan','Diego','Luis','Roberto','Fernando','Jorge','Ricardo','Sergio','Manuel','Antonio','Francisco'];
+  var cities=['Ciudad de Mexico','Buenos Aires','Bogota','Lima','Santiago','Medellin','Guadalajara','Quito','Caracas','Montevideo'];
   function updateUI(){
     counterEl.textContent='Quedan '+state.remaining+' de 100';
   }
   function showToast(){
     var name=names[Math.floor(Math.random()*names.length)];
-    titleEl.textContent=name+' acaba de comprar EHS';
-    subEl.textContent='Quedan '+state.remaining+' de 100';
+    var city=cities[Math.floor(Math.random()*cities.length)];
+    titleEl.textContent=name+' de '+city+' acaba de comprar EHS';
+    subEl.textContent='Quedan solo '+state.remaining+' de 100';
     toast.classList.add('show');
-    setTimeout(function(){toast.classList.remove('show');},4500);
+    setTimeout(function(){toast.classList.remove('show');},5000);
+  }
+  function showLost(){
+    toast.querySelector('.sold-toast-icon').textContent='😔';
+    titleEl.textContent='La oferta ha expirado';
+    subEl.textContent='Esta oportunidad ya no esta disponible';
+    toast.classList.add('show');
+    setTimeout(function(){toast.classList.remove('show');},8000);
   }
   updateUI();
-  var interval=30000-(Date.now()-state.lastDrop)%30000;
+  var cdEnd=Date.now()+15*60*1000;
+  var nextToast=60000-(Date.now()%60000);
   setTimeout(function drop(){
     if(state.remaining>1){
       state.remaining--;
@@ -703,9 +721,14 @@ document.querySelectorAll('.rv, .rv-left, .rv-right').forEach(function(el){ obs.
       updateUI();
       showToast();
     }
-    setTimeout(drop,30000);
-  },interval);
+    setTimeout(drop,60000);
+  },nextToast);
   setTimeout(showToast,5000);
+  setTimeout(function(){
+    showLost();
+    counterEl.textContent='Oferta expirada';
+    counterEl.style.color='#C02828';
+  },cdEnd-Date.now());
 })();
 </script>
 </body>
