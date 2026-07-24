@@ -160,7 +160,29 @@ footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);padding:
 
 @media(max-width:1024px){.mod-item{grid-template-columns:72px 1fr;gap:24px}.bonus-grid{grid-template-columns:1fr}}
 @media(max-width:768px){section,.sec,.pain-sec,.mod-sec,.bonus-sec,.price-sec,.faq-sec,.life-sec{padding:64px 0}.wrap{padding:0 20px}.pain-grid{grid-template-columns:1fr 1fr;gap:12px}.price-box{padding:36px 20px 32px}.final-sec{padding:80px 20px 64px}footer{flex-direction:column;text-align:center;padding:36px 20px}.life-card,.life-card-rev{grid-template-columns:1fr;direction:ltr}.life-copy{padding:28px 20px}.life-title{font-size:clamp(28px,7vw,44px)}.mod-item{grid-template-columns:1fr;gap:8px}}
-@media(max-width:540px){.pain-grid{grid-template-columns:1fr}.bonus-grid{grid-template-columns:1fr}.final-title{font-size:clamp(52px,14vw,88px)}}
+.testi-sec{background:var(--bg2);padding:112px 0;position:relative;overflow:hidden}
+.testi-sec::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:72px}
+.testi-card{background:var(--white);border:1px solid var(--line);box-shadow:0 4px 24px rgba(13,17,23,.06);padding:32px 28px 28px;display:flex;flex-direction:column;gap:16px;position:relative;transition:transform .3s var(--ease),box-shadow .3s}
+.testi-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(13,17,23,.1)}
+.testi-stars{color:#D4AA4A;font-size:16px;letter-spacing:2px}
+.testi-text{font-size:15px;font-weight:300;line-height:1.8;color:var(--ink2);font-style:italic}.testi-text strong{color:var(--ink);font-weight:700}
+.testi-author{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
+.testi-avatar{width:40px;height:40px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
+.testi-name{font-size:13px;font-weight:700;color:var(--ink)}.testi-loc{font-size:11px;color:var(--ink3)}
+
+.countdown-wrap{text-align:center;margin:40px 0 32px;position:relative}
+.countdown-label{font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
+.countdown-subtitle{font-family:var(--D);font-size:clamp(22px,3vw,32px);font-weight:700;font-style:italic;color:var(--ink);line-height:1.2;margin-bottom:8px}
+.countdown-desc{font-size:15px;font-weight:300;line-height:1.7;color:var(--ink2);max-width:480px;margin:0 auto 28px}
+.countdown-timer{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px}
+.countdown-block{display:flex;flex-direction:column;align-items:center;gap:4px}
+.countdown-num{font-family:var(--I);font-size:clamp(36px,6vw,56px);font-weight:900;color:var(--red);line-height:1;min-width:72px;text-align:center;background:rgba(192,40,40,.06);border:1px solid rgba(192,40,40,.15);padding:12px 16px}
+.countdown-unit{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--ink3)}
+.countdown-sep{font-size:clamp(28px,5vw,44px);font-weight:300;color:var(--ink3);line-height:1;padding-bottom:20px}
+.countdown-warn{font-size:13px;font-weight:600;color:var(--red);animation:highlight-pulse 2s ease-in-out infinite;padding:10px 20px;display:inline-block}
+
+@media(max-width:540px){.pain-grid{grid-template-columns:1fr}.bonus-grid{grid-template-columns:1fr}.final-title{font-size:clamp(52px,14vw,88px)}.testi-grid{grid-template-columns:1fr}.countdown-num{min-width:56px;font-size:32px;padding:10px 12px}}
 </style>
 </head>
 <body>
@@ -445,6 +467,68 @@ footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);padding:
   </div>
 </div>
 
+<!-- DEPOIMENTOS -->
+<div class="testi-sec" style="position:relative;overflow:hidden">
+  <div class="glow-blob glow-blue" style="width:500px;height:500px;top:-80px;right:-100px;opacity:.5"></div>
+  <div class="glow-blob glow-gold" style="width:400px;height:400px;bottom:-60px;left:-80px;opacity:.4"></div>
+  <div class="wrap" style="position:relative;z-index:1">
+    <div class="rv" style="text-align:center">
+      <div class="lbl" style="justify-content:center">Historias de Exito</div>
+      <h2 class="big" style="text-align:center">Ellos tambien<br><em>empezaron como tu.</em></h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card rv">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Antes no podia ni presentarme en una reunion de trabajo. Ahora <strong>hablo en publico con total confianza</strong> y mis jefes me tienen en cuenta para liderar proyectos."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">M</div>
+          <div><div class="testi-name">Miguel, 29 anos</div><div class="testi-loc">Ciudad de Mexico</div></div>
+        </div>
+      </div>
+      <div class="testi-card rv d1">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"El modulo de lenguaje corporal <strong>cambio mi vida social.</strong> Ahora entro a cualquier ambiente y la gente me recibe diferente. Es como si tuviera un superpoder."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">R</div>
+          <div><div class="testi-name">Rodrigo, 34 anos</div><div class="testi-loc">Buenos Aires</div></div>
+        </div>
+      </div>
+      <div class="testi-card rv d2">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Pense que era introvertido de nacimiento. EHS me demostro que <strong>era un patron que podia cambiar.</strong> Hoy mis amigos no reconocen al de antes."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">D</div>
+          <div><div class="testi-name">Daniel, 26 anos</div><div class="testi-loc">Bogota</div></div>
+        </div>
+      </div>
+      <div class="testi-card rv">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Como emprendedor, necesitaba comunicar mejor mis ideas. Con EHS <strong>aprendi a vender mi vision</strong> y ahora mis clientes confian en mi desde la primera conversacion."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">L</div>
+          <div><div class="testi-name">Luis, 31 anos</div><div class="testi-loc">Lima</div></div>
+        </div>
+      </div>
+      <div class="testi-card rv d1">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Tenia pani escenario. Despues del modulo 3 <strong>di mi primera charla</strong> frente a 200 personas. Mi familia no lo podia creer."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">C</div>
+          <div><div class="testi-name">Carlos, 28 anos</div><div class="testi-loc">Santiago</div></div>
+        </div>
+      </div>
+      <div class="testi-card rv d2">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Lo compre con dudas por el precio. Hoy digo que <strong>es la mejor inversion que hice</strong> en mi vida. $9.90 por transformar tu confianza no tiene precio."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">A</div>
+          <div><div class="testi-name">Andres, 33 anos</div><div class="testi-loc">Medellin</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- PRECIO -->
 <div class="price-sec" id="inscricao" style="position:relative;overflow:hidden">
   <div class="glow-blob glow-blue" style="width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:.4"></div>
@@ -455,13 +539,16 @@ footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);padding:
     </div>
     <div class="price-box rv d1">
       <div class="price-badge">Cupos limitados</div>
-      <div class="raffle-banner">
-        <div class="raffle-pulse"></div>
-        <div class="raffle-inner">
-          <span class="raffle-fire">🔥</span>
-          <p class="raffle-text">Unete a la turma <strong>HOY</strong> y participa del sorteo para pasar <strong>1 dia entero conmigo en persona</strong> <span class="raffle-highlight">(todo pagado)</span></p>
-          <span class="raffle-fire">🔥</span>
+      <div class="countdown-wrap">
+        <div class="countdown-label">⚡ Oferta por tiempo limitado</div>
+        <div class="countdown-subtitle">Tu Oportunidad</div>
+        <p class="countdown-desc">El conocimiento reservado para el 1% de los hombres esta a tu alcance.</p>
+        <div class="countdown-timer">
+          <div class="countdown-block"><span class="countdown-num" id="cd-min">04</span><span class="countdown-unit">Minutos</span></div>
+          <span class="countdown-sep">:</span>
+          <div class="countdown-block"><span class="countdown-num" id="cd-sec">08</span><span class="countdown-unit">Segundos</span></div>
         </div>
+        <div class="countdown-warn">Esta oferta desaparecera cuando el contador llegue a cero.</div>
       </div>
       <hr class="price-divider">
       <div class="price-total">
@@ -541,6 +628,23 @@ var obs = new IntersectionObserver(function(entries){
   entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
 },{threshold:0.12});
 document.querySelectorAll('.rv, .rv-left, .rv-right').forEach(function(el){ obs.observe(el); });
+
+(function(){
+  var KEY='ehs_cd_end';
+  var end=localStorage.getItem(KEY);
+  if(!end||Date.now()>+end){end=Date.now()+4*60*1000+8*1000;localStorage.setItem(KEY,end);}
+  var mn=document.getElementById('cd-min');
+  var sc=document.getElementById('cd-sec');
+  function tick(){
+    var rem=Math.max(0,+end-Date.now());
+    var m=Math.floor(rem/60000);
+    var s=Math.floor((rem%60000)/1000);
+    mn.textContent=m<10?'0'+m:m;
+    sc.textContent=s<10?'0'+s:s;
+    if(rem>0)requestAnimationFrame(tick);
+  }
+  tick();
+})();
 </script>
 </body>
 </html>
