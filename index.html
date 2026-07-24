@@ -544,9 +544,9 @@ footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);padding:
         <div class="countdown-subtitle">Tu Oportunidad</div>
         <p class="countdown-desc">El conocimiento reservado para el 1% de los hombres esta a tu alcance.</p>
         <div class="countdown-timer">
-          <div class="countdown-block"><span class="countdown-num" id="cd-min">04</span><span class="countdown-unit">Minutos</span></div>
+          <div class="countdown-block"><span class="countdown-num" id="cd-min">15</span><span class="countdown-unit">Minutos</span></div>
           <span class="countdown-sep">:</span>
-          <div class="countdown-block"><span class="countdown-num" id="cd-sec">08</span><span class="countdown-unit">Segundos</span></div>
+          <div class="countdown-block"><span class="countdown-num" id="cd-sec">00</span><span class="countdown-unit">Segundos</span></div>
         </div>
         <div class="countdown-warn">Esta oferta desaparecera cuando el contador llegue a cero.</div>
       </div>
@@ -632,7 +632,7 @@ document.querySelectorAll('.rv, .rv-left, .rv-right').forEach(function(el){ obs.
 (function(){
   var KEY='ehs_cd_end';
   var end=localStorage.getItem(KEY);
-  if(!end||Date.now()>+end){end=Date.now()+4*60*1000+8*1000;localStorage.setItem(KEY,end);}
+  if(!end||Date.now()>+end){end=Date.now()+15*60*1000;localStorage.setItem(KEY,end);}
   var mn=document.getElementById('cd-min');
   var sc=document.getElementById('cd-sec');
   function tick(){
