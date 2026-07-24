@@ -216,7 +216,7 @@ footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);padding:
   </div>
   <div class="scarcity-badge">
     <span class="scarcity-dot"></span>
-    <span class="scarcity-text" id="scarcity-counter">Quedan 100 de 100</span>
+    <span class="scarcity-text" id="scarcity-counter">Quedan 89 de 100</span>
   </div>
   <div class="hero-cta-wrap">
     <a href="#inscricao" class="btn"><span>Quiero ser un hombre de STATUS</span><span class="a">→</span></a>
@@ -634,7 +634,7 @@ footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);padding:
   <span class="sold-toast-icon">🛒</span>
   <div class="sold-toast-body">
     <span class="sold-toast-title" id="sold-title">Alguien acaba de comprar EHS</span>
-    <span class="sold-toast-sub" id="sold-sub">Quedan 100 de 100</span>
+    <span class="sold-toast-sub" id="sold-sub">Quedan 89 de 100</span>
   </div>
 </div>
 
@@ -675,7 +675,7 @@ document.querySelectorAll('.rv, .rv-left, .rv-right').forEach(function(el){ obs.
   var data=localStorage.getItem(KEY);
   var state;
   if(data){state=JSON.parse(data);}
-  else{state={remaining:100,lastDrop:Date.now()};}
+  else{state={remaining:89,lastDrop:Date.now()};}
   var now=Date.now();
   var elapsed=Math.floor((now-state.lastDrop)/60000);
   if(elapsed>0){
